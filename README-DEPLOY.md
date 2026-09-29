@@ -42,4 +42,4 @@ The existing frontend supports an API URL through the `?api=` query parameter, `
 
 
 ## Important: API keys
-Do not commit `backend/.env` to GitHub. Set `GEMINI_API_KEY`, `GROQ_API_KEY`, `SERPAPI_KEY` (and Cloudinary variables if reverse-image upload storage is used) in Render Environment Variables. Keep only `.env.example` in the repository.
+Do not commit `backend/.env` to GitHub. Set `GROQ_API_KEY`, `SERPAPI_KEY` and the three Cloudinary variables (`CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`) in Render Environment Variables. Keep only `.env.example` in the repository.

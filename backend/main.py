@@ -28,9 +28,9 @@ app.mount("/css", StaticFiles(directory=FRONTEND_DIR / "css"), name="css")
 app.mount("/js", StaticFiles(directory=FRONTEND_DIR / "js"), name="js")
 app.mount("/assets", StaticFiles(directory=FRONTEND_DIR / "assets"), name="assets")
 
-@app.get("/")
+@app.api_route("/", methods=["GET", "HEAD"], include_in_schema=False)
 def index():
-    return FileResponse(INDEX_FILE)
+    return FileResponse(INDEX_FILE, headers={"Cache-Control": "no-cache"})
 
 @app.get("/health")
 def health():
@@ -50,15 +50,26 @@ def verify(request: VerifyRequest):
         raise HTTPException(status_code=400, detail="Only text/news verification is enabled.")
     if not request.input.strip():
         raise HTTPException(status_code=400, detail="Text is required.")
+    if len(request.input) > 5000:
+        raise HTTPException(status_code=400, detail="Text is too long. Maximum is 5000 characters.")
     try:
         return verify_content(request)
     except Exception as e:
         print("Verify Error:", e)
         raise HTTPException(status_code=500, detail=f"Verification failed: {e}")
 
+MAX_IMAGE_BYTES = 10 * 1024 * 1024  # matches the "Max 10MB" shown in the UI
+
+# Plain "def" (not "async def"): the analysis makes slow blocking network calls,
+# so FastAPI must run it in a worker thread instead of freezing the whole server.
 @app.post("/verify/reverse-image")
 @app.post("/verify-image")
-async def reverse_image(file: UploadFile = File(...)):
+def reverse_image(file: UploadFile = File(...)):
     if file.content_type not in {"image/jpeg", "image/png", "image/webp"}:
         raise HTTPException(status_code=400, detail="Only JPG, PNG, and WEBP images are supported.")
+    file.file.seek(0, os.SEEK_END)
+    size = file.file.tell()
+    file.file.seek(0)
+    if size > MAX_IMAGE_BYTES:
+        raise HTTPException(status_code=413, detail="Image is too large. Maximum size is 10MB.")
     return analyze_uploaded_image(file)

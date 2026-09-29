@@ -6,6 +6,10 @@ from datetime import datetime, timezone
 from ..schemas import VerifyRequest, VerifyResponse
 from .groq_service import analyze_text
 from .search_service import search_service
+from .sanitize import (
+    clean_str, clean_score, clean_str_list, clean_sources,
+    clean_claims, clean_timeline, clean_platforms,
+)
 
 print("✅ verifier.py is running")
 
@@ -86,7 +90,10 @@ def verify_content(request: VerifyRequest) -> VerifyResponse:
         )
 
         # Evidence returned by Groq
-        evidence_sources = result.get("evidence_sources", [])
+        evidence_sources = [
+            item for item in (result.get("evidence_sources") or [])
+            if isinstance(item, dict)
+        ] if isinstance(result.get("evidence_sources"), list) else []
 
         # Merge Groq output with search results
         if evidence_sources:
@@ -148,32 +155,32 @@ def verify_content(request: VerifyRequest) -> VerifyResponse:
         return VerifyResponse(
             success=True,
 
-            trust_score=result.get("trust_score", 50),
-            verdict=result.get("verdict", "Uncertain"),
-            summary=result.get("summary", ""),
-            risk_level=result.get("risk_level", "Medium"),
+            trust_score=clean_score(result.get("trust_score"), 50),
+            verdict=clean_str(result.get("verdict"), "Uncertain") or "Uncertain",
+            summary=clean_str(result.get("summary")),
+            risk_level=clean_str(result.get("risk_level"), "Medium") or "Medium",
 
             sources_checked=len(evidence),
 
             last_verified=datetime.now(timezone.utc).isoformat(),
 
-            executive_summary=result.get("executive_summary", ""),
+            executive_summary=clean_str(result.get("executive_summary")),
 
-            key_findings=result.get("key_findings", []),
+            key_findings=clean_str_list(result.get("key_findings")),
 
-            suspicious_claims=result.get("suspicious_claims", []),
+            suspicious_claims=clean_claims(result.get("suspicious_claims")),
 
-            triggered_indicators=result.get("triggered_indicators", []),
+            triggered_indicators=clean_str_list(result.get("triggered_indicators")),
 
-            evidence_sources=evidence_sources,
+            evidence_sources=clean_sources(evidence_sources),
 
-            claim_timeline=result.get("claim_timeline", []),
+            claim_timeline=clean_timeline(result.get("claim_timeline")),
 
-            similar_claims=result.get("similar_claims", []),
+            similar_claims=clean_str_list(result.get("similar_claims")),
 
-            spreading_on=result.get("spreading_on", []),
+            spreading_on=clean_platforms(result.get("spreading_on")),
 
-            recommendations=result.get("recommendations", []),
+            recommendations=clean_str_list(result.get("recommendations")),
         )
 
     elif request.type == "image":

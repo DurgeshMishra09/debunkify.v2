@@ -1,7 +1,8 @@
+// NOTE: index.html embeds this same script inline; this file is kept identical for reference.
 const PAGE_CONTENT = {
-  home: '<section id="home">\n<div class="hero">\n<div class="hero-inner">\n<svg class="hero-globe" fill="none" stroke="#5fb0e0" stroke-width="1" viewbox="0 0 260 400">\n<ellipse cx="60" cy="200" rx="150" ry="150"></ellipse>\n<ellipse cx="60" cy="200" rx="150" ry="60"></ellipse>\n<ellipse cx="60" cy="200" rx="60" ry="150"></ellipse>\n<line x1="-90" x2="210" y1="140" y2="140"></line>\n<line x1="-90" x2="210" y1="260" y2="260"></line>\n<circle cx="40" cy="120" fill="#5fb0e0" r="2"></circle>\n<circle cx="120" cy="180" fill="#5fb0e0" r="2"></circle>\n<circle cx="70" cy="260" fill="#5fb0e0" r="2"></circle>\n<circle cx="140" cy="90" fill="#5fb0e0" r="2"></circle>\n<circle cx="30" cy="310" fill="#5fb0e0" r="2"></circle>\n</svg>\n<div class="hero-side-label">A SAFER INTERNET<br/>BEGINS WITH<br/>A MORE INFORMED<br/>YOU.</div>\n<div class="hero-grid">\n<div>\n<div class="eyebrow">INFORMATION VERIFICATION</div>\n<h1>See the Truth<br/>Beyond the <span class="accent">Hype</span></h1>\n<p>DEBUNKIFY helps you verify news, detect fake content and analyze images using AI and reliable sources.</p>\n<div class="actions">\n<button class="btn btn-primary" onclick="openVerify(\'text\')">Verify Something →</button>\n<button class="btn btn-secondary" onclick="show(\'about\')">Learn More</button>\n</div>\n<div class="perks">\n<div class="perk"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8Z"></path></svg>Fast Analysis</div>\n<div class="perk"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 9 8 11 4.6-2 8-6 8-11V5Z"></path></svg>Reliable Sources</div>\n<div class="perk"><svg fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><circle cx="9" cy="8" r="3"></circle><path d="M2 20c0-3.9 3.1-7 7-7s7 3.1 7 7"></path><circle cx="17" cy="9" r="2.5"></circle><path d="M16 13.5c2.8.3 5 2.6 5 5.5"></path></svg>Easy to Use</div>\n</div>\n</div>\n<div class="hero-visual">\n\n<img class="shield" src="assets/shield-logo.png" alt="DEBUNKIFY logo">\n<div class="hero-vert">QUESTION \xa0 VERIFY \xa0 DISCOVER<br/>THE TRUTH</div>\n</div>\n</div>\n</div>\n</div>\n</section>',
-  verify: '<section class="page hidden" id="verify">\n<div class="page-head">\n<div class="eyebrow">VERIFY</div>\n<h1 id="verifyTitle">Verify Text or News</h1>\n<p id="verifySub">Enter a news article, claim, or any text to check if it\'s real or fake.</p>\n</div>\n<div class="verify-grid">\n<div class="side" id="sideCol">\n<svg fill="none" id="sideIcon" stroke="currentColor" stroke-width="1.6" viewbox="0 0 24 24"><path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"></path><path d="M15 2v5h5"></path><path d="M8 13h8M8 17h8M8 9h3"></path></svg>\n<div class="lbl" id="sideLbl">CHECK<br/>FACTS<br/>NOT<br/>RUMOURS</div>\n\n</div>\n<div class="main-panel">\n<div id="inputMode">\n<div class="tabs">\n<button class="tab active" id="tText" onclick="setMode(\'text\')">📄 Text / News</button>\n<button class="tab" id="tImage" onclick="setMode(\'image\')">🖼 Image</button>\n</div>\n<div id="textPanel">\n<textarea id="claim" maxlength="5000" placeholder=\'\'></textarea>\n<div class="charcount"><span id="charN">0</span>/5000 characters</div>\n<div class="panel-row"><button class="btn btn-primary" onclick="verifyText()">Verify Now →</button></div>\n\n</div>\n<div class="hidden" id="imagePanel">\n<label class="drop" id="drop">\n<svg fill="none" stroke="currentColor" stroke-width="1.6" viewbox="0 0 24 24"><path d="M12 16V4M12 4 7 9M12 4l5 5"></path><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"></path></svg>\n<div>Drag &amp; drop an image here</div>\n<div style="color:var(--muted2);font-size:12px;margin-top:4px">or</div>\n<span class="btn btn-primary chooseimg">Choose Image</span>\n<small>Supports JPG, PNG, WEBP (Max 10MB)</small>\n<input accept="image/jpeg,image/png,image/webp" id="imageInput" type="file"/>\n</label>\n<div class="preview-wrap"><img id="preview"/></div>\n<div class="panel-row"><button class="btn btn-primary" onclick="verifyImage()">Verify Image →</button></div>\n\n</div>\n</div>\n<div id="resultMode" class="hidden"></div>\n</div>\n\n</div>\n</div>\n</section>',
-  about: '<section class="page hidden" id="about">\n<div class="about-hero">\n<div class="eyebrow">ABOUT DEBUNKIFY</div>\n<h1>About Debunkify</h1>\n<p>Our mission is to make the internet a safer and more truthful place by helping people verify information and identify fake content.</p>\n</div>\n<div class="about-grid">\n<div class="about-card">\n<svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="5"></circle><circle cx="12" cy="12" fill="currentColor" r="1.4"></circle></svg>\n<h3>Our Goal</h3><p>Fight misinformation using AI and reliable sources.</p>\n</div>\n<div class="about-card">\n<svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><circle cx="9" cy="8" r="3"></circle><path d="M2 20c0-3.9 3.1-7 7-7s7 3.1 7 7"></path><circle cx="17" cy="9" r="2.3"></circle><path d="M16 13.4c2.8.3 5 2.6 5 5.6"></path></svg>\n<h3>For Everyone</h3><p>Students, professionals and curious minds.</p>\n</div>\n<div class="about-card">\n<svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 9 8 11 4.6-2 8-6 8-11V5Z"></path></svg>\n<h3>Reliable &amp; Transparent</h3><p>Clear results with sources and explanations.</p>\n</div>\n<div class="about-card">\n<svg fill="none" stroke="currentColor" stroke-width="1.8" viewbox="0 0 24 24"><path d="m8 6-5 6 5 6M16 6l5 6-5 6"></path></svg>\n<h3>Built as a Student Project</h3><p>Learning, building, and contributing to a safer web.</p>\n</div>\n</div>\n<div class="about-foot">TRUTH TODAY, A BETTER TOMORROW.</div>\n</section>'
+  home: '<section id="home">\n<div class="hero">\n<div class="hero-inner">\n<div class="hero-side-label">A SAFER INTERNET<br/>BEGINS WITH<br/>A MORE INFORMED<br/>YOU.</div>\n<div class="hero-grid">\n<div>\n<div class="eyebrow">INFORMATION VERIFICATION</div>\n<h1>See the Truth<br/>Beyond the <span class="accent">Hype</span></h1>\n<p>DEBUNKIFY helps you verify news, detect fake content and analyze images using AI and reliable sources.</p>\n<div class="actions">\n<button class="btn btn-primary" onclick="openVerify(\'text\')">Verify Something →</button>\n<button class="btn btn-secondary" onclick="show(\'about\')">Learn More</button>\n</div>\n<div class="perks">\n<div class="perk">Fast Analysis</div>\n<div class="perk">Reliable Sources</div>\n<div class="perk">Easy to Use</div>\n</div>\n</div>\n<div class="hero-visual">\n\n<img class="shield" src="assets/hero-lockup-v3.png" alt="DEBUNKIFY - Facts over Falsehoods">\n<div class="hero-vert">QUESTION \xa0 VERIFY \xa0 DISCOVER   THE TRUTH</div>\n</div>\n</div>\n</div>\n</div>\n</section>',
+  verify: '<section class="page hidden" id="verify">\n<div class="page-head">\n<div class="eyebrow">VERIFY</div>\n<h1 id="verifyTitle">Verify Text or News</h1>\n<p id="verifySub">Enter a news article, claim, or any text to check if it\'s real or fake.</p>\n</div>\n<div class="verify-grid">\n<div class="main-panel">\n<div id="inputMode">\n<div class="tabs">\n<button class="tab active" id="tText" onclick="setMode(\'text\')">📄 Text / News</button>\n<button class="tab" id="tImage" onclick="setMode(\'image\')">🖼 Image</button>\n</div>\n<div id="textPanel">\n<textarea id="claim" maxlength="5000" placeholder=\'Paste a news article, claim or message you want to check…\'></textarea>\n<div class="charcount"><span id="charN">0</span>/5000 characters</div>\n<div class="panel-row"><button class="btn btn-primary" onclick="verifyText()">Verify Now →</button></div>\n\n</div>\n<div class="hidden" id="imagePanel">\n<label class="drop" id="drop">\n\n<div>Drag &amp; drop an image here</div>\n<div style="color:var(--muted2);font-size:12px;margin-top:4px">or</div>\n<span class="btn btn-primary chooseimg">Choose Image</span>\n<small>Supports JPG, PNG, WEBP (Max 10MB)</small>\n<input accept="image/jpeg,image/png,image/webp" id="imageInput" type="file"/>\n</label>\n<div class="preview-wrap"><img id="preview" alt="Selected image preview"/></div>\n<div class="panel-row"><button class="btn btn-primary" onclick="verifyImage()">Verify Image →</button></div>\n\n</div>\n</div>\n<div id="resultMode" class="hidden"></div>\n</div>\n\n</div>\n</div>\n</section>',
+  about: '<section class="page hidden" id="about">\n<div class="about-hero">\n<div class="eyebrow">ABOUT DEBUNKIFY</div>\n<h1>About Debunkify</h1>\n<p>Our mission is to make the internet a safer and more truthful place by helping people verify information and identify fake content.</p>\n</div>\n<div class="about-grid">\n<div class="about-card">\n\n<h3>Our Goal</h3><p>Fight misinformation using AI and reliable sources.</p>\n</div>\n<div class="about-card">\n\n<h3>For Everyone</h3><p>Students, professionals and curious minds.</p>\n</div>\n<div class="about-card">\n\n<h3>Reliable &amp; Transparent</h3><p>Clear results with sources and explanations.</p>\n</div>\n<div class="about-card">\n\n<h3>Built as a Student Project</h3><p>Learning, building, and contributing to a safer web.</p>\n</div>\n</div>\n<div class="about-foot">TRUTH TODAY, A BETTER TOMORROW.</div>\n</section>'
 };
 async function loadPages(){
   const host=document.getElementById("pageContent");
@@ -10,12 +11,12 @@ async function loadPages(){
   show("home");
 }
 
-const API_URL = (
+const IS_LOCAL = ["localhost","127.0.0.1"].includes(location.hostname);
+const API_URL = ((IS_LOCAL && (
   new URLSearchParams(location.search).get("api") ||
   window.DEBUNKIFY_API_URL ||
-  localStorage.getItem("DEBUNKIFY_API_URL") ||
-  window.location.origin
-).replace(/\/$/,"");
+  localStorage.getItem("DEBUNKIFY_API_URL")
+)) || window.location.origin).replace(/\/$/,"");
 let mode="text", selectedImage=null, lastResult=null;
 
 function show(id){
@@ -43,36 +44,18 @@ function setMode(m){
   if(m==="text"){
     document.getElementById("verifyTitle").textContent="Verify Text or News";
     document.getElementById("verifySub").textContent="Enter a news article, claim, or any text to check it against current evidence.";
-    setSide("text-input");
   }else{
     document.getElementById("verifyTitle").textContent="Verify an Image";
     document.getElementById("verifySub").textContent="Upload an image to investigate where it has appeared and whether its context is supported.";
-    setSide("image-input");
   }
-}
-
-function setSide(state){
-  const col=document.getElementById("sideCol");
-  if(state==="image-result" && selectedImage){
-    col.innerHTML = `<img src="${document.getElementById("preview").src}" alt="Uploaded image">`;
-    return;
-  }
-  const icons={
-    "text-input":'<path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><path d="M15 2v5h5"/><path d="M8 13h8M8 17h8M8 9h3"/>',
-    "image-input":'<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m5 18 5-5 4 4 3-3 4 4"/>',
-    "text-result":'<path d="M9 12l2 2 4-4"/><rect x="3" y="3" width="18" height="18" rx="3"/>'
-  };
-  const labels={
-    "text-input":"CHECK<br>FACTS<br>NOT<br>RUMOURS",
-    "image-input":"IMAGES<br>CAN LIE<br>WE HELP YOU<br>FIND THE TRUTH",
-    "text-result":"FACTS<br>SUPPORTED<br>BY EVIDENCE"
-  };
-  col.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="width:46px;height:46px;color:var(--red)">${icons[state]}</svg>
-  <div class="lbl">${labels[state]}</div>`;
 }
 
 function esc(s){
   return String(s ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function fillExample(t){
+  document.getElementById("claim").value=t;
+  document.getElementById("charN").textContent=t.length;
 }
 function bindInputEvents(){
   const claim=document.getElementById("claim");
@@ -84,15 +67,22 @@ function bindInputEvents(){
   if(drop && !drop.dataset.bound){
     ["dragenter","dragover"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add("drag")}));
     ["dragleave","drop"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove("drag")}));
-    drop.addEventListener("drop",e=>{const f=e.dataTransfer.files[0];if(f){selectedImage=f;showPreview(f)}});
+    drop.addEventListener("drop",e=>{acceptImage(e.dataTransfer.files[0])});
     drop.dataset.bound="1";
   }
   const imageInput=document.getElementById("imageInput");
   if(imageInput && !imageInput.dataset.bound){
-    imageInput.addEventListener("change",e=>{selectedImage=e.target.files[0];if(selectedImage)showPreview(selectedImage)});
+    imageInput.addEventListener("change",e=>{if(!acceptImage(e.target.files[0]))e.target.value=""});
     imageInput.dataset.bound="1";
   }
 }
+function acceptImage(f){
+  if(!f)return false;
+  if(!/^image\/(jpeg|png|webp)$/.test(f.type)){alert("Please choose a JPG, PNG or WEBP image.");return false}
+  if(f.size>10*1024*1024){alert("This image is too large. Maximum size is 10MB.");return false}
+  selectedImage=f;showPreview(f);return true;
+}
+["dragover","drop"].forEach(ev=>window.addEventListener(ev,e=>e.preventDefault()));
 function showPreview(f){
   const p=document.getElementById("preview");
   if(p.src)URL.revokeObjectURL(p.src);
@@ -103,18 +93,13 @@ function showPreview(f){
 function backToInput(){
   document.getElementById("inputMode").classList.remove("hidden");
   const resultMode=document.getElementById("resultMode"); if(resultMode) resultMode.classList.add("hidden");
-  setSide(mode==="text"?"text-input":"image-input");
 }
 
 function verdictClass(verdict, image=false){
   const v=String(verdict||"").toLowerCase();
-  if(image){
-    if(v.includes("authentic"))return "ok";
-    if(v.includes("false"))return "bad";
-    return "warn";
-  }
-  if(v.includes("verified")||v.includes("likely true")||v==="true")return "ok";
-  if(v.includes("false")||v.includes("misleading")||v==="fake")return "bad";
+  if(/unverified|not verified|partial|partly|mixed|unclear|uncertain|unknown|unsupported|error/.test(v))return "warn";
+  if(/inauthentic|not authentic|not true|untrue|inaccurate|incorrect|false|fake|hoax|misleading|manipulated|fabricated|debunked/.test(v))return "bad";
+  if(image ? /authentic|genuine|original|real/.test(v) : /verified|true|real|accurate|correct/.test(v))return "ok";
   return "warn";
 }
 
@@ -124,9 +109,11 @@ function sourceList(items){
   if(!Array.isArray(items)||!items.length)return `<p class="muted">No source links were returned.</p>`;
   return `<ol>${items.map(s=>{
     const title=s.title||s.source||s.url||"Source";
-    const url=s.url||s.link||"";
+    const raw=s.url||s.link||"";
+    const url=/^https?:\/\//i.test(raw)?raw:"";
     const snippet=s.snippet?`<div class="source-snippet">${esc(s.snippet)}</div>`:"";
-    return `<li><a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(title)}</a>${snippet}</li>`;
+    const label=url?`<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(title)}</a>`:`<span>${esc(title)}</span>`;
+    return `<li>${label}${snippet}</li>`;
   }).join("")}</ol>`;
 }
 
@@ -148,7 +135,6 @@ function platformList(items){
 function renderTextResult(d){
   lastResult=d;
   const cls=verdictClass(d.verdict,false);
-  setSide("text-result");
   document.getElementById("inputMode").classList.add("hidden");
   const rm=document.getElementById("resultMode");
   rm.classList.remove("hidden");
@@ -167,8 +153,6 @@ function renderTextResult(d){
     <div class="result-block"><h4>Explanation</h4><p>${esc(d.executive_summary||d.summary||"No explanation returned.")}</p></div>
     ${d.key_findings?.length?`<div class="result-block"><h4>Key Findings</h4>${simpleList(d.key_findings)}</div>`:""}
     <div class="result-block"><h4>Sources</h4>${sourceList(sources)}</div>
-    ${d.triggered_indicators?.length?`<div class="result-block"><h4>Indicators</h4>${simpleList(d.triggered_indicators)}</div>`:""}
-    ${d.recommendations?.length?`<div class="result-block"><h4>Recommendations</h4>${simpleList(d.recommendations)}</div>`:""}
     <div class="result-actions">
       <button class="btn btn-secondary" onclick="backToInput()">← Check Another</button>
       <button class="btn btn-primary" onclick="downloadReport()">⬇ Download Report</button>
@@ -178,15 +162,17 @@ function renderTextResult(d){
 function renderImageResult(d){
   lastResult=d;
   const cls=verdictClass(d.verdict,true);
-  setSide("image-result");
   document.getElementById("inputMode").classList.add("hidden");
   const rm=document.getElementById("resultMode");
   rm.classList.remove("hidden");
   const original=Array.isArray(d.original_sources)?d.original_sources:[];
   const matches=[...(d.exact_matches||[]),...(d.visual_matches||[])].slice(0,10);
+  const prev=document.getElementById("preview");
+  const thumb=(selectedImage&&prev&&prev.src)?`<div class="result-thumb"><img src="${esc(prev.src)}" alt="Uploaded image"></div>`:"";
   rm.innerHTML=`
     <div class="eyebrow">RESULT</div>
     <h1 style="font-size:22px;margin:8px 0 20px">Image Verification Result</h1>
+    ${thumb}
     <div class="verdict-box ${cls}">
       <div class="vicon ${cls}">${verdictIcon(cls)}</div>
       <div class="vtext">
@@ -202,14 +188,11 @@ function renderImageResult(d){
       <div class="mini-card"><span>Last Seen</span><b>${esc(d.last_seen||"Unknown")}</b></div>
     </div>
     <div class="result-block"><h4>Original Context</h4><p>${esc(d.original_context||"Unknown")}</p></div>
-    <div class="result-block"><h4>Investigation Summary</h4><p>${esc(d.executive_summary||d.summary||"No detailed summary returned.")}</p></div>
     ${d.key_findings?.length?`<div class="result-block"><h4>Key Findings</h4>${simpleList(d.key_findings)}</div>`:""}
-    ${original.length?`<div class="result-block"><h4>Original Sources</h4>${sourceList(original)}</div>`:""}
     ${matches.length?`<div class="result-block"><h4>Reverse-Image Matches</h4>${sourceList(matches)}</div>`:""}
     ${d.timeline?.length?`<div class="result-block"><h4>Timeline</h4>${timelineList(d.timeline)}</div>`:""}
     ${d.false_claims?.length?`<div class="result-block"><h4>False / Misleading Claims</h4>${simpleList(d.false_claims)}</div>`:""}
     ${d.viral_platforms?.length?`<div class="result-block"><h4>Spread</h4>${platformList(d.viral_platforms)}</div>`:""}
-    ${d.recommendations?.length?`<div class="result-block"><h4>Recommendations</h4>${simpleList(d.recommendations)}</div>`:""}
     <div class="result-actions">
       <button class="btn btn-secondary" onclick="backToInput()">← Check Another</button>
       <button class="btn btn-primary" onclick="downloadReport()">⬇ Download Report</button>
@@ -232,7 +215,7 @@ async function apiJson(path,options){
   const r=await fetch((API_URL||"")+path,options);
   let d={};
   try{d=await r.json()}catch(_){}
-  if(!r.ok)throw new Error(d.detail||d.error||`Request failed (${r.status})`);
+  if(!r.ok)throw new Error((typeof d.detail==="string"&&d.detail)||(typeof d.error==="string"&&d.error)||`Request failed (${r.status})`);
   return d;
 }
 
@@ -269,6 +252,7 @@ async function verifyImage(){
     const fd=new FormData();
     fd.append("file",selectedImage,selectedImage.name);
     const d=await apiJson("/verify/reverse-image",{method:"POST",body:fd});
+    if(d.success===false)throw new Error(d.error||d.summary||"Image investigation failed.");
     renderImageResult(d);
   }catch(e){
     renderImageResult({
