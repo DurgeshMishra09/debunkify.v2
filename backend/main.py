@@ -32,7 +32,7 @@ app.mount("/assets", StaticFiles(directory=FRONTEND_DIR / "assets"), name="asset
 def index():
     return FileResponse(INDEX_FILE, headers={"Cache-Control": "no-cache"})
 
-@app.get("/health")
+@app.api_route("/health", methods=["GET", "HEAD"], include_in_schema=False)
 def health():
     return {
         "success": True,
